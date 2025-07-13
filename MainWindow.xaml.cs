@@ -36,7 +36,6 @@ namespace Carlytics
             }
         }
 
-
         public MainWindow()
         {
             InitializeComponent();
@@ -56,6 +55,15 @@ namespace Carlytics
                 this.Close();
             } else 
                 MessageBox.Show("Incorrect credentials", "Error message", MessageBoxButton.OK);
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                onClickLogin(sender, e);
+                e.Handled = true;
+            }
         }
     }
 }
