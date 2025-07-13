@@ -54,7 +54,7 @@ namespace Carlytics
                 programWindow.Show();
                 this.Close();
             } else 
-                MessageBox.Show("Incorrect credentials", "Error message", MessageBoxButton.OK);
+                MessageBox.Show("Incorrect credentials", "Error message", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

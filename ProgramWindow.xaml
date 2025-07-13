@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Carlytics"
         mc:Ignorable="d"
-        Title="ProgramWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Carlytics" Height="720" Width="1280" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/favicon.png">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <DataGrid x:Name="dgRefueling" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="0.5*" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="1.5*" />
+                <DataGridTextColumn Header="Price/Liter" Binding="{Binding PricePerLiter}" Width="1*" />
+                <DataGridTextColumn Header="Liter Price" Binding="{Binding LiterPrice}" Width="1*" />
+                <DataGridTextColumn Header="L/100km" Binding="{Binding LPerKm}" Width="1*" />
+                <DataGridTextColumn Header="Sum" Binding="{Binding Price}" Width="1.2*" />
+                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="1.3*" />
+                <DataGridTextColumn Header="Kilometers" Binding="{Binding Kilometer}" Width="1.5*" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

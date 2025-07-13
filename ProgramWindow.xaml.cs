@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.Data.Sqlite;
+using Dapper;
 
 namespace Carlytics
 {
@@ -19,9 +22,83 @@ namespace Carlytics
     /// </summary>
     public partial class ProgramWindow : Window
     {
+        private string _conString = "Data source=spends.db";
+
         public ProgramWindow()
         {
             InitializeComponent();
+            InitializeDatabase();
+            LoadRefuelingData();
+        }
+
+        private void InitializeDatabase()
+        {
+            try
+            {
+                using (SqliteConnection connection = new SqliteConnection(_conString))
+                {
+                    connection.Open();
+
+                    var cmd = connection.CreateCommand();
+                    cmd.CommandText = @"
+                        CREATE TABLE IF NOT EXISTS Refueling(
+                            Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            Name TEXT NOT NULL,
+                            PricePerLiter REAL NOT NULL,
+                            LiterPrice REAL NOT NULL,
+                            LPerKm REAL NOT NULL,
+                            Price REAL NOT NULL,
+                            Date TEXT NOT NULL,
+                            Kilometer INTEGER NOT NULL
+                        );";
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error with inicialization of database: {ex.Message}", "Database error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        public void LoadRefuelingData()
+        {
+            try
+            {
+                var allRecords = GetAllRefuelings();
+
+                dgRefueling.ItemsSource = allRecords;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error {ex}", "err");
+            }
+        }
+
+        public List<RefuelingRecond> GetAllRefuelings()
+        {
+            using(SqliteConnection connection = new SqliteConnection(_conString))
+            {
+                connection.Open();
+
+                var record = connection.Query<RefuelingRecond>(
+                    "SELECT Id, Name, PricePerLiter, LiterPrice, Price, LPerKm, Date, Kilometer FROM Refueling ORDER BY Date DESC;"
+                ).ToList();
+
+                return record;
+            }
+        }
+
+        public class RefuelingRecond
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public double PricePerLiter { get; set; }
+            public double LiterPrice {  get; set; }
+            public double Price {  get; set; }
+            public double LPerKm { get; set; }
+            public string Date { get; set; }
+            public int Kilometer { get; set; }
         }
     }
 }
