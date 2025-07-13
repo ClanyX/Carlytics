@@ -1,0 +1,72 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build výsledky
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+*.log
+
+# Platformy
+x64/
+x86/
+[Aa][Rr][Mm]*/ 
+
+# Debug / Release
+[Dd]ebug*/
+[Rr]elease*/
+
+# NuGet
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+project.lock.json
+project.fragment.lock.json
+*.nuget.props
+*.nuget.targets
+
+# DotCover, Test results
+*.coverage
+*.coveragexml
+TestResult.xml
+TestResults/
+
+# Překladačem generované soubory
+*.pdb
+*.obj
+*.dll
+*.exe
+*.tmp
+*.cache
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.ilk
+*.ipdb
+*.iobj
+*.tlog
+*.rsp
+*.pch
+*.log
+
+# ClickOnce
+publish/
+
+# VS profiler
+*.psess
+*.vsp
+*.vspx
+
+# JetBrains Rider
+*.sln.iml
+
+# StyleCop, ReSharper, analyzátory
+*.DotSettings.user
+_ReSharper*/
