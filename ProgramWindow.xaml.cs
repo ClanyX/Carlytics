@@ -45,7 +45,7 @@ namespace Carlytics
                             Id INTEGER PRIMARY KEY AUTOINCREMENT,
                             Name TEXT NOT NULL,
                             PricePerLiter REAL NOT NULL,
-                            LiterPrice REAL NOT NULL,
+                            Liter REAL NOT NULL,
                             LPerKm REAL NOT NULL,
                             Price REAL NOT NULL,
                             Date TEXT NOT NULL,
@@ -82,7 +82,7 @@ namespace Carlytics
                 connection.Open();
 
                 var record = connection.Query<RefuelingRecond>(
-                    "SELECT Id, Name, PricePerLiter, LiterPrice, Price, LPerKm, Date, Kilometer FROM Refueling ORDER BY Date DESC;"
+                    "SELECT Id, Name, PricePerLiter, Liter, Price, LPerKm, Date, Kilometer FROM Refueling ORDER BY Date DESC;"
                 ).ToList();
 
                 return record;
@@ -92,13 +92,24 @@ namespace Carlytics
         public class RefuelingRecond
         {
             public int Id { get; set; }
-            public string Name { get; set; }
+            public string? Name { get; set; }
             public double PricePerLiter { get; set; }
-            public double LiterPrice {  get; set; }
+            public double Liter {  get; set; }
             public double Price {  get; set; }
             public double LPerKm { get; set; }
-            public string Date { get; set; }
+            public string? Date { get; set; }
             public int Kilometer { get; set; }
+        }
+
+        //Events
+        private void onClickExit(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void onClickRefresh(object sender, RoutedEventArgs e)
+        {
+            LoadRefuelingData();
         }
     }
 }

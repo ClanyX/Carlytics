@@ -38,10 +38,26 @@ namespace Carlytics
 
         public MainWindow()
         {
+            //detele
+            ProgramWindow program = new ProgramWindow();
+            program.Show();
+            this.Close();
+
+
             InitializeComponent();
             name.Focus();
         }
 
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                onClickLogin(sender, e);
+                e.Handled = true;
+            }
+        }
+
+        //Events
         private void onClickCancel(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
@@ -56,15 +72,6 @@ namespace Carlytics
                 this.Close();
             } else 
                 MessageBox.Show("Incorrect credentials", "Error message", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.Key == Key.Enter)
-            {
-                onClickLogin(sender, e);
-                e.Handled = true;
-            }
         }
     }
 }
