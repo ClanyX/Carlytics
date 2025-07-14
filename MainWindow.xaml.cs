@@ -39,6 +39,7 @@ namespace Carlytics
         public MainWindow()
         {
             InitializeComponent();
+            name.Focus();
         }
 
         private void onClickCancel(object sender, RoutedEventArgs e)

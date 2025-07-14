@@ -20,16 +20,16 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <DataGrid x:Name="dgRefueling" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+        <DataGrid x:Name="dgRefueling" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" FontFamily="Verdana Pro Semibold" FontSize="20">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="0.5*" />
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="1.5*" />
-                <DataGridTextColumn Header="Price/Liter" Binding="{Binding PricePerLiter}" Width="1*" />
-                <DataGridTextColumn Header="Liter Price" Binding="{Binding LiterPrice}" Width="1*" />
-                <DataGridTextColumn Header="L/100km" Binding="{Binding LPerKm}" Width="1*" />
-                <DataGridTextColumn Header="Sum" Binding="{Binding Price}" Width="1.2*" />
-                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="1.3*" />
-                <DataGridTextColumn Header="Kilometers" Binding="{Binding Kilometer}" Width="1.5*" />
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="0.5*" FontFamily="Verdana" FontSize="14" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="1.5*" FontFamily="Verdana" FontSize="14" />
+                <DataGridTextColumn Header="Price/Liter" Binding="{Binding PricePerLiter}" Width="1*" FontFamily="Verdana" FontSize="14" />
+                <DataGridTextColumn Header="Liter Price" Binding="{Binding LiterPrice}" Width="1*" FontFamily="Verdana" FontSize="14" />
+                <DataGridTextColumn Header="L/100km" Binding="{Binding LPerKm}" Width="1*" FontFamily="Verdana" FontSize="14" />
+                <DataGridTextColumn Header="Sum" Binding="{Binding Price}" Width="1.2*" FontFamily="Verdana" FontSize="14" />
+                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="1.3*" FontFamily="Verdana" FontSize="14" />
+                <DataGridTextColumn Header="Kilometers" Binding="{Binding Kilometer}" Width="1.5*" FontFamily="Verdana" FontSize="14" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
