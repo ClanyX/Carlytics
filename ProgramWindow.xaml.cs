@@ -29,6 +29,7 @@ namespace Carlytics
             InitializeComponent();
             InitializeDatabase();
             LoadRefuelingData();
+            statusbar.Content = "Successful login";
         }
 
         private void InitializeDatabase()
@@ -89,18 +90,6 @@ namespace Carlytics
             }
         }
 
-        public class RefuelingRecond
-        {
-            public int Id { get; set; }
-            public string? Name { get; set; }
-            public double PricePerLiter { get; set; }
-            public double Liter {  get; set; }
-            public double Price {  get; set; }
-            public double LPerKm { get; set; }
-            public string? Date { get; set; }
-            public int Kilometer { get; set; }
-        }
-
         //Events
         private void onClickExit(object sender, RoutedEventArgs e)
         {
@@ -110,6 +99,32 @@ namespace Carlytics
         private void onClickRefresh(object sender, RoutedEventArgs e)
         {
             LoadRefuelingData();
+            statusbar.Content = "Refresh completed";
         }
+
+        private void onClickView(object sender, MouseButtonEventArgs e)
+        {
+            if(dgRefueling.SelectedItem is RefuelingRecond selectedRecord)
+            {
+                statusbar.Content = $"Item selected Id:{selectedRecord.Id}";
+                ViewWindow window = new ViewWindow(selectedRecord, this);
+                window.ShowDialog();
+            }
+            else
+            {
+                statusbar.Content = "Not selected item";
+            }
+        }
+    }
+    public class RefuelingRecond
+    {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public double PricePerLiter { get; set; }
+        public double Liter { get; set; }
+        public double Price { get; set; }
+        public double LPerKm { get; set; }
+        public string? Date { get; set; }
+        public int Kilometer { get; set; }
     }
 }

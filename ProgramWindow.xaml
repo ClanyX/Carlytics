@@ -8,7 +8,7 @@
         Title="Carlytics" Height="720" Width="1280" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/favicon.png">
     <Grid>
         <DockPanel>
-            <Menu Height="25" VerticalAlignment="Top" Cursor="">
+            <Menu Height="25" VerticalAlignment="Top">
                 <MenuItem Header="App" FontFamily="Verdana" FontSize="16" Height="25" Background="#FFC8C8C8" BorderBrush="#FF909090" Foreground="Black" Cursor="Hand">
                     <MenuItem x:Name="refreshbtn" Header="Refresh" FontSize="12" Click="onClickRefresh"/>
                     <Separator/>
@@ -21,7 +21,7 @@
                 </MenuItem>
             </Menu>
         </DockPanel>
-        <Grid Margin="5 30 5 5">
+        <Grid Margin="5 30 5 30">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -40,13 +40,24 @@
                     <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="0.5*" FontFamily="Verdana" FontSize="14" />
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="1.5*" FontFamily="Verdana" FontSize="14" />
                     <DataGridTextColumn Header="Price/Liter" Binding="{Binding PricePerLiter}" Width="1*" FontFamily="Verdana" FontSize="14" />
-                    <DataGridTextColumn Header="Liter Price" Binding="{Binding Liter}" Width="1*" FontFamily="Verdana" FontSize="14" />
-                    <DataGridTextColumn Header="L/100km" Binding="{Binding LPerKm}" Width="1*" FontFamily="Verdana" FontSize="14" />
+                    <DataGridTextColumn Header="Liter" Binding="{Binding Liter}" Width="1*" FontFamily="Verdana" FontSize="14" />
                     <DataGridTextColumn Header="Sum" Binding="{Binding Price}" Width="1.2*" FontFamily="Verdana" FontSize="14" />
+                    <DataGridTextColumn Header="L/100km" Binding="{Binding LPerKm}" Width="1*" FontFamily="Verdana" FontSize="14" />
                     <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="1.3*" FontFamily="Verdana" FontSize="14" />
                     <DataGridTextColumn Header="Kilometers" Binding="{Binding Kilometer}" Width="1.5*" FontFamily="Verdana" FontSize="14" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
+        <StatusBar Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Verdana" FontSize="16" Foreground="Black" Margin="10 0 0 5" Background="{x:Null}">
+            <StatusBarItem Content="7J7 4935 |" HorizontalContentAlignment="Left"/>
+            <StatusBarItem Content="Status:" HorizontalContentAlignment="Left"/>
+            <StatusBarItem x:Name="statusbar" Content="None" HorizontalContentAlignment="Left" Width="870"/>
+            
+        </StatusBar>
+        <StatusBar Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontFamily="Verdana" FontSize="16" Foreground="Black" Cursor="Hand" Margin="0 0 10 5" Background="{x:Null}">
+            <StatusBarItem x:Name="btnview" Content="View" Width="70" HorizontalContentAlignment="Center"  Background="#FFC8C8C8" Margin="0 0 10 0" MouseLeftButtonDown="onClickView"/>
+            <StatusBarItem Content="Add" Width="70" HorizontalContentAlignment="Center" Background="#FFC8C8C8"  Margin="0 0 10 0" />
+            <StatusBarItem Content="Delete" Width="70" HorizontalContentAlignment="Center" Background="#FFC8C8C8" />
+        </StatusBar>
     </Grid>
 </Window>
