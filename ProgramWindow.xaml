@@ -16,8 +16,8 @@
                 </MenuItem>
                 <MenuItem Header="Fuel" FontFamily="Verdana" FontSize="16" Height="25" Background="#FFC8C8C8" BorderBrush="#FF909090" Foreground="Black" Cursor="Hand">
                     <MenuItem x:Name="addbtn" Header="Add" FontSize="12"/>
-                    <MenuItem x:Name="viewbtn" Header="View" FontSize="12"/>
-                    <MenuItem x:Name="deletebtn" Header="Delete" FontSize="12"/>
+                    <MenuItem x:Name="viewbtn" Header="View" FontSize="12" MouseLeftButtonDown="onClickView"/>
+                    <MenuItem x:Name="deletebtn" Header="Delete" FontSize="12" MouseLeftButtonDown="onClickDelete"/>
                 </MenuItem>
             </Menu>
         </DockPanel>
@@ -55,9 +55,9 @@
             
         </StatusBar>
         <StatusBar Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontFamily="Verdana" FontSize="16" Foreground="Black" Cursor="Hand" Margin="0 0 10 5" Background="{x:Null}">
-            <StatusBarItem x:Name="btnview" Content="View" Width="70" HorizontalContentAlignment="Center"  Background="#FFC8C8C8" Margin="0 0 10 0" MouseLeftButtonDown="onClickView"/>
-            <StatusBarItem Content="Add" Width="70" HorizontalContentAlignment="Center" Background="#FFC8C8C8"  Margin="0 0 10 0" />
-            <StatusBarItem Content="Delete" Width="70" HorizontalContentAlignment="Center" Background="#FFC8C8C8" />
+            <StatusBarItem Content="View" Width="70" HorizontalContentAlignment="Center"  Background="#FFC8C8C8" Margin="0 0 10 0" MouseLeftButtonDown="onClickView"/>
+            <StatusBarItem Content="Add" Width="70" HorizontalContentAlignment="Center" Background="#FFC8C8C8"  Margin="0 0 10 0" MouseLeftButtonDown="onClickAdd"/>
+            <StatusBarItem Content="Delete" Width="70" HorizontalContentAlignment="Center" Background="#FFC8C8C8" MouseLeftButtonDown="onClickDelete" />
         </StatusBar>
     </Grid>
 </Window>

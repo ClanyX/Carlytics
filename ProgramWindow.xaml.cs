@@ -115,6 +115,27 @@ namespace Carlytics
                 statusbar.Content = "Not selected item";
             }
         }
+
+        private void onClickDelete(object sender, MouseButtonEventArgs e)
+        {
+            if(dgRefueling.SelectedItem is RefuelingRecond selectedRecord)
+            {
+                using (SqliteConnection connection = new SqliteConnection(_conString))
+                {
+                    connection.Open();
+                    string cmd = "DELETE FROM Refueling WHERE Id = @id";
+                    connection.Execute(cmd, new { id = selectedRecord.Id });
+                    LoadRefuelingData();
+                    statusbar.Content = $"Delete item with id={selectedRecord.Id}";
+                }
+            }
+        }
+
+        private void onClickAdd(object sender, RoutedEventArgs e)
+        {
+            AddWindow addWindow = new AddWindow();
+            addWindow.ShowDialog();
+        }
     }
     public class RefuelingRecond
     {
