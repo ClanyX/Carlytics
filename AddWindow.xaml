@@ -5,41 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Carlytics"
         mc:Ignorable="d"
-        Title="Add Article" Height="450" Width="800" Icon="/favicon.png" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Add Article" Height="380" Width="400" Icon="/favicon.png" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Cursor="">
     <Grid>
-        <Label Content="Add Record" HorizontalContentAlignment="Center" FontFamily="Verdana Pro Semibold" FontSize="16"/>
-        <Grid Margin="5 30 5 5">
+        <Label Content="Add Record" HorizontalContentAlignment="Center" FontFamily="Verdana Pro Semibold" FontSize="20" Margin="0 5 0 0"/>
+        <Grid Margin="5 40 5 5">
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             
-            <Label Content="Name:" Grid.Row="0" Grid.Column="0"/>
-            <TextBox Grid.Row="0" Grid.Column="1"/>
+            <Label Content="Name:" Grid.Row="0" Grid.Column="0" Margin="0 10 0 0" FontFamily="Verdana Pro Semibold" FontSize="16"/>
+            <TextBox x:Name="name" Grid.Row="0" Grid.Column="1" Margin="0 10 0 0" FontFamily="Verdana" FontSize="14" VerticalContentAlignment="Center" PreviewKeyDown="spaceChecker"/>
 
-            <Label Content="Price Per Liter:" Grid.Row="1" Grid.Column="0"/>
-            <TextBox Grid.Row="1" Grid.Column="1"/>
+            <Label Content="Price Per Liter:" Grid.Row="1" Grid.Column="0" Margin="0 10 0 0" FontFamily="Verdana Pro Semibold" FontSize="16"/>
+            <TextBox x:Name="ppl" Grid.Row="1" Grid.Column="1" Margin="0 10 0 0" FontFamily="Verdana" FontSize="14" VerticalContentAlignment="Center" PreviewKeyDown="spaceChecker" PreviewTextInput="decimalInput"/>
 
-            <Label Content="Liters taken:" Grid.Row="2" Grid.Column="0"/>
-            <TextBox Grid.Row="2" Grid.Column="1"/>
+            <Label Content="Liters taken:" Grid.Row="2" Grid.Column="0" Margin="0 10 0 0" FontFamily="Verdana Pro Semibold" FontSize="16"/>
+            <TextBox x:Name="lt" Grid.Row="2" Grid.Column="1" Margin="0 10 0 0" FontFamily="Verdana" FontSize="14" VerticalContentAlignment="Center" PreviewKeyDown="spaceChecker" PreviewTextInput="decimalInput"/>
 
-            <Label Content="Price:" Grid.Row="3" Grid.Column="0"/>
-            <TextBox Grid.Row="3" Grid.Column="1"/>
+            <Label Content="Price:" Grid.Row="3" Grid.Column="0" Margin="0 10 0 0" FontFamily="Verdana Pro Semibold" FontSize="16"/>
+            <TextBox x:Name="price" Grid.Row="3" Grid.Column="1" Margin="0 10 0 0" FontFamily="Verdana" FontSize="14" VerticalContentAlignment="Center" PreviewKeyDown="spaceChecker" PreviewTextInput="decimalInput"/>
 
-            <Label Content="Kilometers:" Grid.Row="4" Grid.Column="0"/>
-            <TextBox Grid.Row="4" Grid.Column="1"/>
+            <Label Content="Kilometers:" Grid.Row="4" Grid.Column="0" Margin="0 10 0 0" FontFamily="Verdana Pro Semibold" FontSize="16"/>
+            <TextBox x:Name="kilometers" Grid.Row="4" Grid.Column="1" Margin="0 10 0 0" FontFamily="Verdana" FontSize="14" VerticalContentAlignment="Center" PreviewKeyDown="spaceChecker" PreviewTextInput="decimalInput"/>
 
-            <Label Content="Date:" Grid.Row="5" Grid.Column="0"/>
-            <DatePicker x:Name="dp" Grid.Row="5" Grid.Column="1" SelectedDateFormat="Short"/>
+            <Label Content="Date:" Grid.Row="5" Grid.Column="0" Margin="0 10 0 0" FontFamily="Verdana Pro Semibold" FontSize="16"/>
+            <DatePicker x:Name="dp" Grid.Row="5" Grid.Column="1" SelectedDateFormat="Short" Margin="0 10 0 0" FontFamily="Verdana" FontSize="14" VerticalContentAlignment="Center" PreviewKeyDown="spaceChecker"/>
         </Grid>
-        <Button Content="Add" Height="20" Width="40" Click="Button_Click"/>
+        <Button Content="Cacel" Height="30" Width="60" Click="onClickCancel" VerticalAlignment="Bottom" Margin="150 0 0 15" FontFamily="Verdana Pro Semibold" FontSize="16" Background="#FFC8C8C8" BorderBrush="#FF909090" Foreground="Black" Cursor="Hand"/>
+        <Button Content="Add" Height="30" Width="60" Click="onClickAdd" VerticalAlignment="Bottom" Margin="-150 0 0 15" FontFamily="Verdana Pro Semibold" FontSize="16" Background="#FFC8C8C8" BorderBrush="#FF909090" Foreground="Black" Cursor="Hand"/>
     </Grid>
 </Window>
