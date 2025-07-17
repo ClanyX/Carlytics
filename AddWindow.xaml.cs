@@ -55,7 +55,7 @@ namespace Carlytics
                 var result = connection.QueryFirstOrDefault(cmd1);
                 double totalDis = result?.MaxKM - result?.MinKM;
 
-                //ten prumer bude asi vsede stejny kdyztak zmenit jen na jedno tankovani(pouze 2 des mista)
+                //ten prumer bude asi vsede stejny kdyztak zmenit jen na jedno tankovani
                 if (result == null || totalDis <= 0)
                 {
                     _average = 0.0;
@@ -63,6 +63,8 @@ namespace Carlytics
                 else
                 {
                     _average = ((double)result?.TotalLiters * 100.00) / totalDis;
+                    string x = _average.ToString("F2");
+                    _average = double.Parse(x);
                 }
 
                 object[] parameters = { new {  name = _name, priceperliter = _ppl, liter =  _lt, lperkm = _average, price = _price, date = _dp, kilometer = _kilometers  } };
