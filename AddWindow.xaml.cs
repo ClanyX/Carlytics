@@ -55,7 +55,6 @@ namespace Carlytics
                 var result = connection.QueryFirstOrDefault(cmd1);
                 double totalDis = result?.MaxKM - result?.MinKM;
 
-                //ten prumer bude asi vsede stejny kdyztak zmenit jen na jedno tankovani
                 if (result == null || totalDis <= 0)
                 {
                     _average = 0.0;

@@ -122,11 +122,15 @@ namespace Carlytics
             {
                 using (SqliteConnection connection = new SqliteConnection(_conString))
                 {
-                    connection.Open();
-                    string cmd = "DELETE FROM Refueling WHERE Id = @id";
-                    connection.Execute(cmd, new { id = selectedRecord.Id });
-                    LoadRefuelingData();
-                    statusbar.Content = $"Delete item with id={selectedRecord.Id}";
+                    MessageBoxResult result = MessageBox.Show($"Are you sure you want to delete this entry {selectedRecord.Id} from {selectedRecord.Date}?", "Confirmation of deletion", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if(result == MessageBoxResult.Yes)
+                    {
+                        connection.Open();
+                        string cmd = "DELETE FROM Refueling WHERE Id = @id";
+                        connection.Execute(cmd, new { id = selectedRecord.Id });
+                        LoadRefuelingData();
+                        statusbar.Content = $"Delete item with id={selectedRecord.Id}";
+                    }
                 }
             }
         }

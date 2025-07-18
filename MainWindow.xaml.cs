@@ -38,12 +38,6 @@ namespace Carlytics
 
         public MainWindow()
         {
-            //detele
-            ProgramWindow program = new ProgramWindow();
-            program.Show();
-            this.Close();
-
-
             InitializeComponent();
             name.Focus();
         }
