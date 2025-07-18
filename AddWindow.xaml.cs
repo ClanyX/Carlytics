@@ -53,7 +53,15 @@ namespace Carlytics
 
                 string cmd1 = "SELECT SUM(Liter) AS TotalLiters, MAX(Kilometer) AS MaxKM, MIN(Kilometer) AS MinKM FROM Refueling;";
                 var result = connection.QueryFirstOrDefault(cmd1);
-                double totalDis = result?.MaxKM - result?.MinKM;
+                double totalDis = 0.0;
+                try
+                {
+                    totalDis = result?.MaxKM - result?.MinKM;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
 
                 if (result == null || totalDis <= 0)
                 {
