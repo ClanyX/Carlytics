@@ -30,20 +30,15 @@ namespace Carlytics
 
         private void onClickAdd(object sender, RoutedEventArgs e)
         {
-            if (name.Text == null) return;
-            if (ppl.Text == null) return;
-            if (lt.Text == null) return;
-            if (price.Text == null) return;
-            if (kilometers.Text == null) return;
-            if (!dp.SelectedDate.HasValue) return;
+            if (name.Text == null || ppl.Text == null || lt.Text == null || price.Text == null || kilometers.Text == null || !dp.SelectedDate.HasValue) return;
 
-            string _name = name.Text;
-            double _ppl = double.Parse(ppl.Text);
-            double _lt = double.Parse(lt.Text);
-            double _price = double.Parse(price.Text);
+            string _name = name.Text.Trim();
+            double _ppl = Math.Round(double.Parse(ppl.Text), 2);
+            double _lt = Math.Round(double.Parse(lt.Text), 2);
+            double _price = Math.Round(double.Parse(price.Text), 2);
             int _kilometers = (int)double.Parse(kilometers.Text);
             double _average = 0.0;
-            string _dp = dp.SelectedDate.Value.ToString("dd-MM-yyyy");
+            string _dp = dp.SelectedDate.Value.ToString("dd-MM-yyyy").Trim();
 
             using (SqliteConnection connection = new SqliteConnection(_conString))
             {
@@ -88,7 +83,7 @@ namespace Carlytics
 
         private void spaceChecker(object sender, KeyEventArgs e)
         {
-            if(e.Key  == Key.Space)
+            if(e.Key  == Key.Space && sender != name)
             {
                 e.Handled = true;
             }
