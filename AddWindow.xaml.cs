@@ -23,9 +23,14 @@ namespace Carlytics
     public partial class AddWindow : Window
     {
         private string _conString = "Data source=spends.db";
-        public AddWindow()
+        private ProgramWindow _window;
+        public AddWindow(Window window)
         {
             InitializeComponent();
+            if(window is ProgramWindow)
+            {
+                _window = (ProgramWindow)window;
+            }
         }
 
         private void onClickAdd(object sender, RoutedEventArgs e)
@@ -72,7 +77,7 @@ namespace Carlytics
                 object[] parameters = { new {  name = _name, priceperliter = _ppl, liter =  _lt, lperkm = _average, price = _price, date = _dp, kilometer = _kilometers  } };
                 connection.Execute(cmd, parameters[0]);
             }
-
+            _window.LoadRefuelingData();
             this.Close();
         }
 

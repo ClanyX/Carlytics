@@ -137,8 +137,29 @@ namespace Carlytics
 
         private void onClickAdd(object sender, RoutedEventArgs e)
         {
-            AddWindow addWindow = new AddWindow();
+            AddWindow addWindow = new AddWindow(this);
             addWindow.ShowDialog();
+        }
+
+        private void onDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if(e.ChangedButton == MouseButton.Left)
+            {
+                DependencyObject dep = (DependencyObject)e.OriginalSource;
+                while((dep != null) && !(dep is DataGridRow))
+                {
+                    dep = VisualTreeHelper.GetParent(dep);
+                }
+                if(dep is DataGridRow row)
+                {
+                    if(row.DataContext is RefuelingRecond selectedItem)
+                    {
+                        statusbar.Content = $"Item selected Id:{selectedItem.Id}";
+                        ViewWindow window = new ViewWindow(selectedItem, this);
+                        window.ShowDialog();
+                    }
+                }
+            }
         }
     }
     public class RefuelingRecond

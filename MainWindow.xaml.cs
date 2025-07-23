@@ -28,7 +28,7 @@ namespace Carlytics
             try
             {
                 unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(secureString);
-                return Marshal.PtrToStringUni(unmanagedString);
+                return Marshal.PtrToStringUni(unmanagedString) ?? string.Empty;
             }
             finally
             {
@@ -59,7 +59,7 @@ namespace Carlytics
 
         private void onClickLogin(object sender, RoutedEventArgs e)
         {
-            if(name.Text == NPS.Default.Name && ConvertToUnsecureString(pass.SecurePassword) == NPS.Default.Password)
+            if(name.Text.Trim() == NPS.Default.Name && ConvertToUnsecureString(pass.SecurePassword).Trim() == NPS.Default.Password)
             {
                 ProgramWindow programWindow = new ProgramWindow();
                 programWindow.Show();
