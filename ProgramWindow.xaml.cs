@@ -161,6 +161,12 @@ namespace Carlytics
                 }
             }
         }
+
+        private void onClickPpl(object sender, RoutedEventArgs e)
+        {
+            GraphWindow graphWindow = new GraphWindow();
+            graphWindow.Show();
+        }
     }
     public class RefuelingRecond
     {

@@ -15,9 +15,15 @@
                     <MenuItem x:Name="exitbtn" Header="Exit" FontSize="12" Click="onClickExit"/>
                 </MenuItem>
                 <MenuItem Header="Fuel" FontFamily="Verdana" FontSize="16" Height="25" Background="#FFC8C8C8" BorderBrush="#FF909090" Foreground="Black" Cursor="Hand">
-                    <MenuItem x:Name="addbtn" Header="Add" FontSize="12" MouseLeftButtonDown="onClickAdd"/>
-                    <MenuItem x:Name="viewbtn" Header="View" FontSize="12" MouseLeftButtonDown="onClickView"/>
-                    <MenuItem x:Name="deletebtn" Header="Delete" FontSize="12" MouseLeftButtonDown="onClickDelete"/>
+                    <MenuItem x:Name="addbtn" Header="Add" FontSize="12" Click="onClickAdd"/>
+                    <MenuItem x:Name="viewbtn" Header="View" FontSize="12"/>
+                    <MenuItem x:Name="deletebtn" Header="Delete" FontSize="12"/>
+                </MenuItem>
+                <MenuItem Header="Graph" FontFamily="Verdana" FontSize="16" Height="25" Background="#FFC8C8C8" BorderBrush="#FF909090" Foreground="Black" Cursor="Hand">
+                    <MenuItem x:Name="ppl" Header="PperLiter" FontSize="12" Click="onClickPpl"/>
+                    <MenuItem x:Name="price" Header="Price" FontSize="12"/>
+                    <MenuItem x:Name="litertaken" Header="LiterTaken" FontSize="12" />
+                    <MenuItem x:Name="consumption" Header="Consumption" FontSize="12" />
                 </MenuItem>
             </Menu>
         </DockPanel>
