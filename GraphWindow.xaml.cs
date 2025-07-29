@@ -24,16 +24,47 @@ namespace Carlytics
     /// </summary>
     public partial class GraphWindow : Window
     {
+        public List<RefuelingRecond> refuelingReconds;
+
         public ISeries[] Series { get; set; }
 
         public Axis[] XAxes { get; set; }
         
         public Axis[] YAxes { get; set; }
 
-        private void LoadChart()
+        private void LoadChart(int i)
         {
-            var charValues = new List<double> { 1,4,5,6,4,3,7,3 };
-            var charLabels = new List<string> { "1","2","3","4","5","6","7","8"};
+            List<double> charValues = new List<double>();
+            string Yname = string.Empty;
+            switch (i)
+            {
+                case 0:
+                    charValues = refuelingReconds.Select(record => record.PricePerLiter).ToList();
+                    charValues.Reverse();
+                    Yname = "Price Per Liter";
+                    break;
+                case 1:
+                    charValues = refuelingReconds.Select(record => record.Price).ToList();
+                    charValues.Reverse();
+                    Yname = "Price";
+                    break;
+                case 2:
+                    charValues = refuelingReconds.Select(record => record.Liter).ToList();
+                    charValues.Reverse();
+                    Yname = "Liter Taken";
+                    break;
+                case 3:
+                    charValues = refuelingReconds.Select(record => record.LPerKm).ToList();
+                    charValues.Reverse();
+                    Yname = "Consumption";
+                    break;
+                default:
+                    Yname = "none";
+                    break;
+            }
+   
+            List<string> charLabels = refuelingReconds.Select(record => record.Id.ToString()).ToList();
+            charLabels.Reverse();
 
             Series = new ISeries[]
             {
@@ -48,6 +79,7 @@ namespace Carlytics
                     Stroke = new SolidColorPaint(SKColors.Blue) { StrokeThickness = 3 },
                     DataLabelsPaint = new SolidColorPaint(SKColors.DarkBlue),
                     DataLabelsPosition = DataLabelsPosition.Top,
+                    //DataLabelsFormatter = (point) => point.ToString("F2") + " L/100km"
                 }
             };
 
@@ -56,11 +88,13 @@ namespace Carlytics
                 new Axis
                 {
                     Labels = charLabels.ToArray(),
-                    LabelsRotation = 45,
                     Name = "Id",
                     NamePaint = new SolidColorPaint(SKColors.Black),
                     LabelsPaint = new SolidColorPaint(SKColors.Gray),
-                    SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) { StrokeThickness = 1 }
+                    SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) { StrokeThickness = 1 },
+                    UnitWidth = 1,
+                    MinLimit = null,
+                    MaxLimit = null                    
                 }
             };
 
@@ -68,7 +102,7 @@ namespace Carlytics
             {
                 new Axis
                 {
-                    Name = "Y",
+                    Name = Yname,
                     NamePaint = new SolidColorPaint(SKColors.Black),
                     LabelsPaint = new SolidColorPaint(SKColors.Gray),
                     MinLimit = 0,
@@ -76,15 +110,21 @@ namespace Carlytics
                     SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) { StrokeThickness = 1 } 
                 }
             };
+
+            if (chartRefueling != null)
+            {
+                chartRefueling.ZoomMode = ZoomAndPanMode.X;
+            }
         }
 
-        public GraphWindow()
+        public GraphWindow(List<RefuelingRecond> reconds, int i)
         {
             InitializeComponent();
 
             this.DataContext = this;
 
-            LoadChart();
+            refuelingReconds = reconds;
+            LoadChart(i);
         }
     }
 }

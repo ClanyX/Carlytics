@@ -164,8 +164,26 @@ namespace Carlytics
 
         private void onClickPpl(object sender, RoutedEventArgs e)
         {
-            GraphWindow graphWindow = new GraphWindow();
-            graphWindow.Show();
+            GraphWindow graphWindow = new GraphWindow(GetAllRefuelings(),0);
+            graphWindow.ShowDialog();
+        }
+
+        private void onClickP(object sender, RoutedEventArgs e)
+        {
+            GraphWindow graphWindow = new GraphWindow(GetAllRefuelings(),1);
+            graphWindow.ShowDialog();
+        }
+
+        private void onClickLiter(object sender, RoutedEventArgs e)
+        {
+            GraphWindow graphWindow = new GraphWindow(GetAllRefuelings(), 2);
+            graphWindow.ShowDialog();
+        }
+
+        private void onClickC(object sender, RoutedEventArgs e)
+        {
+            GraphWindow graphWindow = new GraphWindow(GetAllRefuelings(), 3);
+            graphWindow.ShowDialog();
         }
     }
     public class RefuelingRecond
