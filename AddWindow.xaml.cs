@@ -33,6 +33,11 @@ namespace Carlytics
             }
         }
 
+        private void ownCon_DataContextChanged(object sender, RoutedEventArgs  e)
+        {
+            consuption.IsEnabled = !consuption.IsEnabled;
+        }
+
         private void onClickAdd(object sender, RoutedEventArgs e)
         {
             if (name.Text == null || ppl.Text == null || lt.Text == null || price.Text == null || kilometers.Text == null || !dp.SelectedDate.HasValue) return;
@@ -51,27 +56,40 @@ namespace Carlytics
                 string cmd = "INSERT INTO Refueling (Name, PricePerLiter, Liter, LPerKm, Price, Date, Kilometer) " +
                              "VALUES (@name, @priceperliter, @liter, @lperkm, @price, @date, @kilometer)";
 
-                string cmd1 = "SELECT SUM(Liter) AS TotalLiters, MAX(Kilometer) AS MaxKM, MIN(Kilometer) AS MinKM FROM Refueling;";
-                var result = connection.QueryFirstOrDefault(cmd1);
-                double totalDis = 0.0;
-                try
+                if (ownCon.IsChecked == true)
                 {
-                    totalDis = result?.MaxKM - result?.MinKM;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
-                if (result == null || totalDis <= 0)
-                {
-                    _average = 0.0;
+                    if(consuption.Text != null && consuption.Text != "")
+                    {
+                        _average = Math.Round(double.Parse(consuption.Text), 2);
+                    } else
+                    {
+                        _average = 0.0;
+                    }
                 }
                 else
                 {
-                    _average = ((double)result?.TotalLiters * 100.00) / totalDis;
-                    string x = _average.ToString("F2");
-                    _average = double.Parse(x);
+                    string cmd1 = "SELECT SUM(Liter) AS TotalLiters, MAX(Kilometer) AS MaxKM, MIN(Kilometer) AS MinKM FROM Refueling;";
+                    var result = connection.QueryFirstOrDefault(cmd1);
+                    double totalDis = 0.0;
+                    try
+                    {
+                        totalDis = result?.MaxKM - result?.MinKM;
+                    }
+                    catch (Exception ex)
+                    { 
+                       Console.WriteLine(ex.Message);
+                    }
+
+                    if (result == null || totalDis <= 0)
+                    {
+                        _average = 0.0;
+                    }
+                    else
+                    {
+                        _average = ((double)result?.TotalLiters * 100.00) / totalDis;
+                        string x = _average.ToString("F2");
+                        _average = double.Parse(x);
+                    }
                 }
 
                 object[] parameters = { new {  name = _name, priceperliter = _ppl, liter =  _lt, lperkm = _average, price = _price, date = _dp, kilometer = _kilometers  } };
