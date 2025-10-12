@@ -1,5 +1,9 @@
-﻿using System;
+﻿using Dapper;
+using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -12,8 +16,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Microsoft.Data.Sqlite;
-using Dapper;
 
 namespace Carlytics
 {
@@ -87,6 +89,40 @@ namespace Carlytics
                 ).ToList();
 
                 return record;
+            }
+        }
+
+        void ExportToCsv(DataTable dataTable, string filePath, char separator = ';')
+        {
+            using (StreamWriter sw = new StreamWriter(filePath, false, new UTF8Encoding(true)))
+            {
+                for (int i = 0; i < dataTable.Columns.Count; i++)
+                {
+                    sw.Write("\"" + dataTable.Columns[i].ColumnName + "\"");
+                    if (i < dataTable.Columns.Count - 1)
+                    {
+                        sw.Write(separator);
+                    }
+                }
+                sw.WriteLine();
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    for (int i = 0; i < dataTable.Columns.Count; i++)
+                    {
+                        string value = Convert.IsDBNull(row[i]) ? string.Empty : row[i].ToString();
+
+                        string formattedValue = value.Replace("\"", "\"\"");
+
+                        sw.Write($"\"{formattedValue}\"");
+
+                        if (i < dataTable.Columns.Count - 1)
+                        {
+                            sw.Write(separator);
+                        }
+                    }
+                    sw.WriteLine();
+                }
             }
         }
 
@@ -184,6 +220,45 @@ namespace Carlytics
         {
             GraphWindow graphWindow = new GraphWindow(GetAllRefuelings(), 3);
             graphWindow.Show();
+        }
+
+        private void onClickExport(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog
+            {
+                Filter = "CSV soubor (*.csv)|*.csv",
+                FileName = "Export_Dat.csv"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string connectionString = "Data Source=spends.db;";
+                string selectQuery = "SELECT Id, Name, PricePerLiter, Liter, Price, LPerKm, Date, Kilometer FROM Refueling ORDER BY Date DESC;";
+                DataTable dataTable = new DataTable();
+
+                try
+                {
+                    using (var connection = new SqliteConnection(connectionString))
+                    {
+                        connection.Open();
+                        using (var command = new SqliteCommand(selectQuery, connection))
+                        {
+                            using (var reader = command.ExecuteReader())
+                            {
+                                dataTable.Load(reader);
+                            }
+                        }
+                    }
+
+                    ExportToCsv(dataTable, saveFileDialog.FileName, ';');
+
+                    MessageBox.Show("Data exported successfully.", "Export complete");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Err: {ex.Message}", "Err", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
     public class RefuelingRecond

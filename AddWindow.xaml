@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Carlytics"
         mc:Ignorable="d"
-        Title="Add Article" Height="380" Width="400" Icon="/favicon.png" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Cursor="">
+        Title="Add Article" Height="430" Width="400" Icon="/favicon.png" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Cursor="">
     <Grid>
         <Label Content="Add Record" HorizontalContentAlignment="Center" FontFamily="Verdana Pro Semibold" FontSize="20" Margin="0 5 0 0"/>
         <Grid Margin="5 40 5 5">
             <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="40"/>
@@ -39,6 +40,10 @@
 
             <Label Content="Date:" Grid.Row="5" Grid.Column="0" Margin="0 10 0 0" FontFamily="Verdana Pro Semibold" FontSize="16"/>
             <DatePicker x:Name="dp" Grid.Row="5" Grid.Column="1" SelectedDateFormat="Short" Margin="0 10 0 0" FontFamily="Verdana" FontSize="14" VerticalContentAlignment="Center" PreviewKeyDown="spaceChecker"/>
+
+            <Label Content="Consumption: " Grid.Row="6" Grid.Column="0" Margin="0 10 0 0" FontFamily="Verdana Pro Semibold" FontSize="16"/>
+            <CheckBox x:Name="ownCon" Grid.Row="6" Grid.Column="1" Click="ownCon_DataContextChanged" Margin="0 10 0 0" FontFamily="Verdana" FontSize="14" VerticalContentAlignment="Center"/>
+            <TextBox x:Name="consuption" IsEnabled="False" Grid.Row="6" Grid.Column="1" Margin="20 10 0 0" FontFamily="Verdana" FontSize="14" VerticalContentAlignment="Center" PreviewKeyDown="spaceChecker" PreviewTextInput="decimalInput"/>
         </Grid>
         <Button Content="Cacel" Height="30" Width="60" Click="onClickCancel" VerticalAlignment="Bottom" Margin="150 0 0 15" FontFamily="Verdana Pro Semibold" FontSize="16" Background="#FFC8C8C8" BorderBrush="#FF909090" Foreground="Black" Cursor="Hand"/>
         <Button Content="Add" Height="30" Width="60" Click="onClickAdd" VerticalAlignment="Bottom" Margin="-150 0 0 15" FontFamily="Verdana Pro Semibold" FontSize="16" Background="#FFC8C8C8" BorderBrush="#FF909090" Foreground="Black" Cursor="Hand"/>
