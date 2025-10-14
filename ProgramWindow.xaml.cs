@@ -9,6 +9,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Win32;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -123,6 +124,107 @@ namespace Carlytics
                     }
                     sw.WriteLine();
                 }
+            }
+        }
+
+        void ImportCsvToDB(string filePath, string tableName, char separator, string connectionString)
+        {
+            Encoding encoding = new UTF8Encoding(true);
+
+            try
+            {
+                List<string[]> rows = new List<string[]>();
+                string[] columnNames = null;
+
+                using (StreamReader sr = new StreamReader(filePath, encoding))
+                {
+                    string line;
+                    bool isHeader = true;
+
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        string cleanedLine = line.Trim();
+
+                        if (cleanedLine.StartsWith("\"") && cleanedLine.EndsWith("\""))
+                        {
+                            cleanedLine = cleanedLine.Substring(1, cleanedLine.Length - 2);
+                        }
+
+                        string[] fields = cleanedLine.Split(separator)
+                                                     .Select(f => f.Replace("\"\"", "\""))
+                                                     .Select(f => f.Trim('"'))
+                                                     .ToArray();
+
+
+                        if (isHeader)
+                        {
+                            columnNames = fields;
+                            isHeader = false;
+                        }
+                        else
+                        {
+                            rows.Add(fields);
+                        }
+                    }
+                }
+
+                if (columnNames == null || rows.Count == 0)
+                {
+                    MessageBox.Show("CSV is empty or have bad format.", "Import error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                using (var connection = new SqliteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (var transaction = connection.BeginTransaction())
+                    {
+                        using (var deleteCommand = connection.CreateCommand())
+                        {
+                            deleteCommand.CommandText = $"DELETE FROM {tableName};";
+                            deleteCommand.ExecuteNonQuery();
+                        }
+
+                        string columnsList = string.Join(", ", columnNames);
+                        string parametersList = string.Join(", ", columnNames.Select(c => "@" + c.Replace(" ", "_")));
+
+                        string insertQuery = $"INSERT INTO {tableName} ({columnsList}) VALUES ({parametersList});";
+
+                        using (var insertCommand = connection.CreateCommand())
+                        {
+                            insertCommand.CommandText = insertQuery;
+
+                            foreach (var colName in columnNames)
+                            {
+                                insertCommand.Parameters.Add(new SqliteParameter("@" + colName.Replace(" ", "_"), DbType.String));
+                            }
+
+                            foreach (var row in rows)
+                            {
+                                if (row.Length != columnNames.Length)
+                                {
+                                    continue;
+                                }
+
+                                for (int i = 0; i < columnNames.Length; i++)
+                                {
+                                    insertCommand.Parameters[i].Value = row[i];
+                                }
+
+                                insertCommand.ExecuteNonQuery();
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                }
+
+                MessageBox.Show($"Successfully imported {rows.Count} rows into table '{tableName}'.", "Import completed");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error while importing data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -259,6 +361,24 @@ namespace Carlytics
                     MessageBox.Show($"Err: {ex.Message}", "Err", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+        }
+
+        private void onClickImport(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "CSV soubor (*.csv)|*.csv"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string connectionString = "Data Source=spends.db;";
+                string tableName = "Refueling";
+                char separator = ';';
+
+                ImportCsvToDB(openFileDialog.FileName, tableName, separator, connectionString);
+            }
+            LoadRefuelingData();
         }
     }
     public class RefuelingRecond

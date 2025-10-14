@@ -27,7 +27,7 @@
                 </MenuItem>
                 <MenuItem Header="Table" FontFamily="Verdana" FontSize="16" Height="25" Background="#FFC8C8C8" BorderBrush="#FF909090" Foreground="Black" Cursor="Hand">
                     <MenuItem x:Name="export" Header="Export" FontSize="12" Click="onClickExport"/>
-                    <MenuItem x:Name="import" Header="Import" FontSize="12"/>
+                    <MenuItem x:Name="import" Header="Import" FontSize="12" Click="onClickImport"/>
                 </MenuItem>
             </Menu>
         </DockPanel>
