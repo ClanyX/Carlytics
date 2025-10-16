@@ -111,7 +111,7 @@ namespace Carlytics
                 {
                     for (int i = 0; i < dataTable.Columns.Count; i++)
                     {
-                        string value = Convert.IsDBNull(row[i]) ? string.Empty : row[i].ToString();
+                        string? value = Convert.IsDBNull(row[i]) ? string.Empty : row[i].ToString();
 
                         string formattedValue = value.Replace("\"", "\"\"");
 
@@ -134,7 +134,7 @@ namespace Carlytics
             try
             {
                 List<string[]> rows = new List<string[]>();
-                string[] columnNames = null;
+                string[]? columnNames = null;
 
                 using (StreamReader sr = new StreamReader(filePath, encoding))
                 {
