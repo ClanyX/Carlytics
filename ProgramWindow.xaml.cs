@@ -48,10 +48,10 @@ namespace Carlytics
                         CREATE TABLE IF NOT EXISTS Refueling(
                             Id INTEGER PRIMARY KEY AUTOINCREMENT,
                             Name TEXT NOT NULL,
-                            PricePerLiter REAL NOT NULL,
-                            Liter REAL NOT NULL,
-                            LPerKm REAL NOT NULL,
-                            Price REAL NOT NULL,
+                            PricePerLiter FLOAT NOT NULL,
+                            Liter FLOAT NOT NULL,
+                            LPerKm FLOAT NOT NULL,
+                            Price FLOAT NOT NULL,
                             Date TEXT NOT NULL,
                             Kilometer INTEGER NOT NULL
                         );";
@@ -86,7 +86,7 @@ namespace Carlytics
                 connection.Open();
 
                 var record = connection.Query<RefuelingRecond>(
-                    "SELECT Id, Name, PricePerLiter, Liter, Price, LPerKm, Date, Kilometer FROM Refueling ORDER BY Date DESC;"
+                    "SELECT * FROM Refueling ORDER BY Id DESC;"
                 ).ToList();
 
                 return record;
@@ -113,7 +113,7 @@ namespace Carlytics
                     {
                         string? value = Convert.IsDBNull(row[i]) ? string.Empty : row[i].ToString();
 
-                        string formattedValue = value.Replace("\"", "\"\"");
+                        string formattedValue = (value ?? string.Empty).Replace("\"", "\"\"");
 
                         sw.Write($"\"{formattedValue}\"");
 
@@ -138,7 +138,7 @@ namespace Carlytics
 
                 using (StreamReader sr = new StreamReader(filePath, encoding))
                 {
-                    string line;
+                    string? line;
                     bool isHeader = true;
 
                     while ((line = sr.ReadLine()) != null)
@@ -240,6 +240,26 @@ namespace Carlytics
             statusbar.Content = "Refresh completed";
         }
 
+        private void onClickInfo(object sender, RoutedEventArgs e)
+        {
+            double totalCost = 0.0f;
+            using (SqliteConnection sqlite = new SqliteConnection(_conString))
+            {
+                sqlite.Open();
+
+                object? result = sqlite.ExecuteScalar(
+                        "SELECT SUM(Price) FROM Refueling;"
+                );
+                if(result != null && double.TryParse(result.ToString(), out double parsed))
+                {
+                    totalCost = parsed;
+                }
+            }
+            string message = $"SPZ: 7J74935\nTotal cost: {totalCost:F2}";
+            const string caption = "Car info";
+            MessageBox.Show(this,message,caption,MessageBoxButton.OK,MessageBoxImage.Information);
+        }
+
         private void onClickView(object sender, MouseButtonEventArgs e)
         {
             if(dgRefueling.SelectedItem is RefuelingRecond selectedRecord)
@@ -335,7 +355,7 @@ namespace Carlytics
             if (saveFileDialog.ShowDialog() == true)
             {
                 string connectionString = "Data Source=spends.db;";
-                string selectQuery = "SELECT Id, Name, PricePerLiter, Liter, Price, LPerKm, Date, Kilometer FROM Refueling ORDER BY Date DESC;";
+                string selectQuery = "SELECT * FROM Refueling ORDER BY Id DESC;";
                 DataTable dataTable = new DataTable();
 
                 try

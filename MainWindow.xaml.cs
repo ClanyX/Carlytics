@@ -19,6 +19,9 @@ namespace Carlytics
     /// </summary>
     public partial class MainWindow : Window
     {
+        //Variables
+        private bool existingUser = false;
+
         //Functions
         private string ConvertToUnsecureString(SecureString secureString)
         {
@@ -40,6 +43,7 @@ namespace Carlytics
         {
             InitializeComponent();
             name.Focus();
+            if(NPS.Default.Name != "" && NPS.Default.Password != "") existingUser = true;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -59,13 +63,32 @@ namespace Carlytics
 
         private void onClickLogin(object sender, RoutedEventArgs e)
         {
-            if(name.Text.Trim() == NPS.Default.Name && ConvertToUnsecureString(pass.SecurePassword).Trim() == NPS.Default.Password)
+            if (existingUser)
             {
-                ProgramWindow programWindow = new ProgramWindow();
-                programWindow.Show();
-                this.Close();
-            } else 
-                MessageBox.Show("Incorrect credentials", "Error message", MessageBoxButton.OK, MessageBoxImage.Error);
+                if(name.Text.Trim() == NPS.Default.Name && ConvertToUnsecureString(pass.SecurePassword).Trim() == NPS.Default.Password)
+                {
+                    ProgramWindow programWindow = new ProgramWindow();
+                    programWindow.Show();
+                    this.Close();
+                } else 
+                    MessageBox.Show("Incorrect credentials", "Error message", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                try
+                {
+                    NPS.Default.Name = name.Text.Trim();
+                    NPS.Default.Password = ConvertToUnsecureString(pass.SecurePassword).Trim();
+                    NPS.Default.Save();
+                    MessageBox.Show("New user created!", "User", MessageBoxButton.OK);
+                    existingUser = true;
+                    onClickLogin(sender, e);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Error saving settings: " + ex.Message, "Saving", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }
