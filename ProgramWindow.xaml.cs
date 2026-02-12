@@ -152,6 +152,7 @@ namespace Carlytics
 
                         string[] fields = cleanedLine.Split(separator)
                                                      .Select(f => f.Replace("\"\"", "\""))
+                                                     .Select(f => f.Replace(",", "."))
                                                      .Select(f => f.Trim('"'))
                                                      .ToArray();
 
@@ -243,19 +244,28 @@ namespace Carlytics
         private void onClickInfo(object sender, RoutedEventArgs e)
         {
             double totalCost = 0.0f;
+            int minKm = 0;
+            int maxKm = 0;
             using (SqliteConnection sqlite = new SqliteConnection(_conString))
             {
                 sqlite.Open();
 
-                object? result = sqlite.ExecuteScalar(
-                        "SELECT SUM(Price) FROM Refueling;"
-                );
-                if(result != null && double.TryParse(result.ToString(), out double parsed))
+                const string sql = "SELECT SUM(Price), MIN(Kilometer), MAX(Kilometer) FROM Refueling;";
+                using(SqliteCommand cmd = new SqliteCommand(sql, sqlite))
                 {
-                    totalCost = parsed;
+                    using(SqliteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            totalCost = reader.IsDBNull(0) ? 0.0f : reader.GetDouble(0);
+                            minKm = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
+                            maxKm = reader.IsDBNull(2) ? 0 : reader.GetInt32(2);
+                        }
+                    }
                 }
             }
-            string message = $"SPZ: 7J74935\nTotal cost: {totalCost:F2}";
+            statusbar.Content = "Car's info";
+            string message = $"SPZ: 7J74935\nTotal cost: {totalCost:F2}\nTotal KM: {(maxKm-minKm)}";
             const string caption = "Car info";
             MessageBox.Show(this,message,caption,MessageBoxButton.OK,MessageBoxImage.Information);
         }

@@ -114,7 +114,7 @@ namespace Carlytics
 
         private void decimalInput(object sender, TextCompositionEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
+            TextBox? textBox = sender as TextBox;
 
             if (textBox == null) return;
             
