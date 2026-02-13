@@ -46,5 +46,17 @@ namespace Carlytics.Properties {
                 this["Password"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool isSaved {
+            get {
+                return ((bool)(this["isSaved"]));
+            }
+            set {
+                this["isSaved"] = value;
+            }
+        }
     }
 }

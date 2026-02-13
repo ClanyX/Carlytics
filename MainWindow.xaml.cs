@@ -44,6 +44,14 @@ namespace Carlytics
             InitializeComponent();
             name.Focus();
             if(NPS.Default.Name != "" && NPS.Default.Password != "") existingUser = true;
+            if (NPS.Default.isSaved)
+            {
+                saved.IsChecked = true;
+            }
+            else
+            {
+                saved.IsChecked = false;
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -53,6 +61,15 @@ namespace Carlytics
                 onClickLogin(sender, e);
                 e.Handled = true;
             }
+        }
+
+        private void LoginAction()
+        {
+            ProgramWindow programWindow = new ProgramWindow();
+            programWindow.Show();
+            NPS.Default.isSaved = (bool)saved.IsChecked;
+            NPS.Default.Save();
+            this.Close();
         }
 
         //Events
@@ -65,11 +82,14 @@ namespace Carlytics
         {
             if (existingUser)
             {
+                if (NPS.Default.isSaved)
+                {
+                    LoginAction();
+                    return;
+                }
                 if(name.Text.Trim() == NPS.Default.Name && ConvertToUnsecureString(pass.SecurePassword).Trim() == NPS.Default.Password)
                 {
-                    ProgramWindow programWindow = new ProgramWindow();
-                    programWindow.Show();
-                    this.Close();
+                    LoginAction();
                 } else 
                     MessageBox.Show("Incorrect credentials", "Error message", MessageBoxButton.OK, MessageBoxImage.Error);
             }
